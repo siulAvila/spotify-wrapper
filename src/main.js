@@ -1,27 +1,21 @@
-import interceptors from './utils/interceptor';
-import SPOTIFY_SEARCH_URL from './configs/constants';
+import express from 'express';
 
-const search = {
-  genericSearch: (query, type) =>
-    fetch(`${SPOTIFY_SEARCH_URL}q=${query}&type=${type}`, interceptors.setHeaders())
-      .then((response) => response.json())
-      .catch((error) => error),
+import searchAlbums from './api/albums';
 
-  searchAlbums: (query) => {
-    search.genericSearch(query, 'albums');
-  },
+const app = express();
 
-  searchArtists: (query) => {
-    search.genericSearch(query, 'artists');
-  },
+let albumNames;
 
-  searchTracks: (query) => {
-    search.genericSearch(query, 'tracks');
-  },
-
-  searchPlaylists: (query) => {
-    search.genericSearch(query, 'playlists');
-  },
+const getAlbums = async () => {
+  const albums = await searchAlbums('Guns N Roses');
+  albumNames = albums.map((album) => album.name);
 };
 
-export default search;
+app.get('/', async (req, res) => {
+  await getAlbums();
+  res.send(albumNames);
+});
+
+const server = app.listen(3000, () => {
+  console.log(`App running on port: ${server.address().port}`);
+});
