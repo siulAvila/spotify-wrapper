@@ -1,5 +1,6 @@
 # Spotify Wrapper
 
+[![Build Status](https://travis-ci.org/siulAvila/spotify-wrapper.svg?branch=master)](https://travis-ci.org/siulAvila/spotify-wrapper)
 project for Javascript and TDD studies (with jasmine)
 
 Course:https://www.udemy.com/course/js-com-tdd-na-pratica by [Willian Justen](https://github.com/willianjusten/)
@@ -98,6 +99,7 @@ searchAlbums('Incubus').then((data) => {
   // do what you want with the data
 });
 ```
+
 ### getAlbum(id)
 
 > Search for informations about a specific Album with provided id. Test in [Spotify Web Console](https://developer.spotify.com/web-api/console/get-album/).
