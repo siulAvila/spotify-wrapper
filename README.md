@@ -98,61 +98,6 @@ searchAlbums('Incubus').then((data) => {
   // do what you want with the data
 });
 ```
-
-### searchArtists(query)
-
-> Search for informations about Artists with provided query. Test in [Spotify Web Console](https://developer.spotify.com/web-api/console/get-search-item/) with type defined as _artist_.
-
-**Arguments**
-
-| Argument | Type     | Options            |
-| -------- | -------- | ------------------ |
-| `query`  | _string_ | 'Any search query' |
-
-**Example**
-
-```js
-searchArtists('Incubus').then((data) => {
-  // do what you want with the data
-});
-```
-
-### searchTracks(query)
-
-> Search for informations about Tracks with provided query. Test in [Spotify Web Console](https://developer.spotify.com/web-api/console/get-search-item/) with type defined as _track_.
-
-**Arguments**
-
-| Argument | Type     | Options            |
-| -------- | -------- | ------------------ |
-| `query`  | _string_ | 'Any search query' |
-
-**Example**
-
-```js
-searchTracks('Drive').then((data) => {
-  // do what you want with the data
-});
-```
-
-### searchPlaylists(query)
-
-> Search for informations about Playlist with provided query. Test in [Spotify Web Console](https://developer.spotify.com/web-api/console/get-search-item/) with type defined as _playlist_.
-
-**Arguments**
-
-| Argument | Type     | Options            |
-| -------- | -------- | ------------------ |
-| `query`  | _string_ | 'Any search query' |
-
-**Example**
-
-```js
-searchPlaylists('Happy Day').then((data) => {
-  // do what you want with the data
-});
-```
-
 ### getAlbum(id)
 
 > Search for informations about a specific Album with provided id. Test in [Spotify Web Console](https://developer.spotify.com/web-api/console/get-album/).
