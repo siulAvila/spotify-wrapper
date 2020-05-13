@@ -4,6 +4,20 @@ import keys from './keys';
 
 global.fetch = require('node-fetch');
 
+export function SpotifyException(status, message) {
+  this.message = message;
+  this.status = status;
+}
+
+export const handleErrors = (response) => {
+  if (response.error) {
+    const { status, message } = response.error;
+    throw new SpotifyException(status, message);
+  } else {
+    return response;
+  }
+};
+
 const httpService = {
   setHeaders: () => {
     const options = {
@@ -18,7 +32,8 @@ const httpService = {
   httpRequest: (url) => {
     return fetch(url, httpService.setHeaders())
       .then((response) => response.json())
-      .catch((error) => error);
+      .then((response) => handleErrors(response))
+      .catch((error) => Promise.reject(error.message));
   },
 };
 

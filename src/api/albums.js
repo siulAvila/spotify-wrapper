@@ -1,8 +1,16 @@
 import genericSearch from './index';
 
 const searchAlbums = async (query) => {
-  const albums = await genericSearch.search(query, 'album');
-  return albums.albums.items;
+  const albums = await genericSearch.searchItems(query, 'album');
+  if (albums.albums && albums.albums.items) {
+    return albums.albums.items;
+  }
+  return albums;
 };
 
-export default searchAlbums;
+const searchAlbumsById = async (id) => {
+  const albums = await genericSearch.searchById('albums', id);
+  return albums;
+};
+
+export default { searchAlbums, searchAlbumsById };

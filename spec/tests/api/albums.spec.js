@@ -1,28 +1,40 @@
-import searchAlbums from '../../../src/api/albums';
+import search from '../../../src/api/albums';
 import genericSearch from '../../../src/api/index';
 
-const responseSpotifyObject = {
+const responseSpotifyForAlbums = {
   albums: {
     items: ['Appetite For Destruction'],
   },
 };
 
+const responseSpotifyForAlbumsById = {
+  albums: { json: 'json' },
+};
+
 describe('Albums', () => {
   describe('Smoke tests', () => {
     it('should exist the searchAlbums method', () => {
-      expect(searchAlbums).toBeTruthy();
+      expect(search.searchAlbums).toBeTruthy();
     });
 
     it('should be a function', () => {
-      expect(searchAlbums).toBeInstanceOf(Function);
+      expect(search.searchAlbums).toBeInstanceOf(Function);
+    });
+
+    it('should exist the searchAlbums method', () => {
+      expect(search.searchAlbumsById).toBeTruthy();
+    });
+
+    it('should be a function', () => {
+      expect(search.searchAlbumsById).toBeInstanceOf(Function);
     });
   });
 
-  describe('searchAlbums', () => {
+  describe('search albums', () => {
     let spySearch;
 
     beforeEach(() => {
-      spySearch = spyOn(genericSearch, 'search').and.returnValue(responseSpotifyObject);
+      spySearch = spyOn(genericSearch, 'searchItems');
     });
 
     afterEach(() => {
@@ -30,17 +42,55 @@ describe('Albums', () => {
     });
 
     it('should call the search method', () => {
-      searchAlbums('Guns N Roses');
-      expect(genericSearch.search).toHaveBeenCalled();
+      spySearch.and.returnValue(responseSpotifyForAlbums);
+      search.searchAlbums('Guns N Roses');
+      expect(genericSearch.searchItems).toHaveBeenCalled();
     });
 
     it('should call the search method with de url', () => {
-      searchAlbums('Guns N Roses');
-      expect(genericSearch.search).toHaveBeenCalledWith('Guns N Roses', 'album');
+      spySearch.and.returnValue(responseSpotifyForAlbums);
+      search.searchAlbums('Guns N Roses');
+      expect(genericSearch.searchItems).toHaveBeenCalledWith('Guns N Roses', 'album');
     });
 
     it('should return a object receive by the search method', async () => {
-      expect(await searchAlbums('Guns N Roses')).toEqual(['Appetite For Destruction']);
+      spySearch.and.returnValue(responseSpotifyForAlbums);
+      expect(await search.searchAlbums('Guns N Roses')).toEqual(['Appetite For Destruction']);
+    });
+
+    it('should return a object receive by the search method', async () => {
+      spySearch.and.returnValue({});
+      expect(await search.searchAlbums('')).toEqual({});
+    });
+  });
+
+  describe('Search albums by id', () => {
+    let spySearchById;
+
+    beforeEach(() => {
+      spySearchById = spyOn(genericSearch, 'searchById').and.returnValue(
+        responseSpotifyForAlbumsById
+      );
+    });
+
+    afterEach(() => {
+      spySearchById.calls.reset();
+    });
+
+    it('should call the searchById method', () => {
+      search.searchAlbumsById('41MnTivkwTO3UUJ8DrqEJJ');
+      expect(genericSearch.searchById).toHaveBeenCalled();
+    });
+
+    it('should call the search method with de url', () => {
+      search.searchAlbumsById('41MnTivkwTO3UUJ8DrqEJJ');
+      expect(genericSearch.searchById).toHaveBeenCalledWith('albums', '41MnTivkwTO3UUJ8DrqEJJ');
+    });
+
+    it('should return a object receive by the search method', async () => {
+      expect(await genericSearch.searchById('41MnTivkwTO3UUJ8DrqEJJ')).toEqual(
+        responseSpotifyForAlbumsById
+      );
     });
   });
 });

@@ -1,11 +1,14 @@
 import { Headers } from 'node-fetch';
 
-import httpService from '../../../src/config/http';
+import httpService, { SpotifyException, handleErrors } from '../../../src/config/http';
 
 import SPOTIFY_SEARCH_URL from '../../../src/config/constants';
 import keys from '../../../src/config/keys';
 
 describe('Http', () => {
+  const spotifyObjectResponse = { body: 'json' };
+  const spotifyError = { error: { status: 401, message: 'The access token expired' } };
+
   describe('smoke tests', () => {
     describe('setHeader', () => {
       it('should be a function', () => {
@@ -24,6 +27,26 @@ describe('Http', () => {
 
       it('should be a function', () => {
         expect(httpService.httpRequest).toBeInstanceOf(Function);
+      });
+    });
+
+    describe('handleErrors', () => {
+      it('should be exist', () => {
+        expect(handleErrors).toBeTruthy();
+      });
+
+      it('should be a function', () => {
+        expect(handleErrors).toBeInstanceOf(Function);
+      });
+    });
+
+    describe('SpotifyException', () => {
+      it('should be exist', () => {
+        expect(SpotifyException).toBeTruthy();
+      });
+
+      it('should be a function', () => {
+        expect(SpotifyException).toBeInstanceOf(Function);
       });
     });
   });
@@ -81,17 +104,53 @@ describe('Http', () => {
     it('returns a resolve promise and return a object', async () => {
       fetchSpy.and.resolveTo({
         json: () => {
-          return Promise.resolve({ body: 'json' });
+          return Promise.resolve(spotifyObjectResponse);
         },
       });
       const response = await httpService.httpRequest(SPOTIFY_SEARCH_URL);
-      expect(response).toEqual({ body: 'json' });
+      expect(response).toEqual(spotifyObjectResponse);
     });
 
     it('returns a reject promise', async () => {
-      fetchSpy.and.rejectWith({ error: { code: 401 } });
-      const response = await httpService.httpRequest(SPOTIFY_SEARCH_URL);
-      expect(response).toEqual({ error: { code: 401 } });
+      fetchSpy.and.resolveTo({
+        json: () => {
+          return Promise.resolve(spotifyError);
+        },
+      });
+      await httpService
+        .httpRequest(SPOTIFY_SEARCH_URL)
+        .catch((error) => expect(error).toEqual('The access token expired'));
+    });
+  });
+
+  describe('SpotifyException', () => {
+    const { status, message } = spotifyError.error;
+
+    it('should return a exception if receives response.error with param', () => {
+      expect(new SpotifyException(status, message)).toBeInstanceOf(SpotifyException);
+    });
+  });
+
+  describe('handleError', () => {
+    const { status, message } = spotifyError.error;
+    it('should return a exception if receives response.error with param', () => {
+      try {
+        handleErrors(spotifyError);
+      } catch (error) {
+        expect(error).toEqual(new SpotifyException(status, message));
+      }
+    });
+
+    it('should return a exception with instance of SpotifyException when receives response.error with param', () => {
+      try {
+        handleErrors(spotifyError);
+      } catch (error) {
+        expect(error).toBeInstanceOf(SpotifyException);
+      }
+    });
+
+    it('should return a object if dont receives response.error with param', () => {
+      expect(handleErrors(spotifyObjectResponse)).toEqual(spotifyObjectResponse);
     });
   });
 });
