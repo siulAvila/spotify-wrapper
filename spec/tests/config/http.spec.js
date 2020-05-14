@@ -1,31 +1,35 @@
 import { Headers } from 'node-fetch';
 
-import httpService, { SpotifyException, handleErrors } from '../../../src/config/http';
-
 import SPOTIFY_SEARCH_URL from '../../../src/config/constants';
+import SpotifyWrapper from '../../../src/main';
+import { handleErrors } from '../../../src/config/http';
 
+let spotifyWrapper;
 describe('Http', () => {
+  beforeAll(() => {
+    spotifyWrapper = new SpotifyWrapper({ apiKey: 'foo' });
+  });
   const spotifyObjectResponse = { body: 'json' };
   const spotifyError = { error: { status: 401, message: 'The access token expired' } };
 
   describe('smoke tests', () => {
     describe('setHeader', () => {
       it('should be a function', () => {
-        expect(httpService.setHeaders).toBeInstanceOf(Function);
+        expect(spotifyWrapper.httpService.setHeaders).toBeInstanceOf(Function);
       });
 
       it('should be exist', () => {
-        expect(httpService.setHeaders).toBeTruthy();
+        expect(spotifyWrapper.httpService.setHeaders).toBeTruthy();
       });
     });
 
     describe('httpRequest', () => {
       it('should be exist', () => {
-        expect(httpService.httpRequest).toBeTruthy();
+        expect(spotifyWrapper.httpService.httpRequest).toBeTruthy();
       });
 
       it('should be a function', () => {
-        expect(httpService.httpRequest).toBeInstanceOf(Function);
+        expect(spotifyWrapper.httpService.httpRequest).toBeInstanceOf(Function);
       });
     });
 
@@ -38,36 +42,26 @@ describe('Http', () => {
         expect(handleErrors).toBeInstanceOf(Function);
       });
     });
-
-    describe('SpotifyException', () => {
-      it('should be exist', () => {
-        expect(SpotifyException).toBeTruthy();
-      });
-
-      it('should be a function', () => {
-        expect(SpotifyException).toBeInstanceOf(Function);
-      });
-    });
   });
 
   describe('httpService.SetHeaders', () => {
     it('should return a header object', () => {
-      const options = httpService.setHeaders();
+      const options = spotifyWrapper.httpService.setHeaders();
       expect(options).toBeTruthy();
     });
 
     it('should return a header inside a to the object', () => {
-      const options = httpService.setHeaders();
+      const options = spotifyWrapper.httpService.setHeaders();
       const { headers } = options;
       expect(headers).toEqual(jasmine.any(Headers));
     });
 
     it('should return a header with the autorizhation code', () => {
-      const options = httpService.setHeaders();
+      const options = spotifyWrapper.httpService.setHeaders();
       const { headers } = options;
       const autorizhation = headers.get('authorization');
 
-      expect(autorizhation).toEqual('bear foo');
+      expect(autorizhation).toEqual('Bearer foo');
     });
   });
 
@@ -85,19 +79,22 @@ describe('Http', () => {
     });
 
     it('should call the fetch function', () => {
-      httpService.httpRequest(SPOTIFY_SEARCH_URL);
+      spotifyWrapper.httpService.httpRequest(SPOTIFY_SEARCH_URL);
       expect(global.fetch).toHaveBeenCalled();
     });
 
     it('should call the setHeaders', () => {
-      spyOn(httpService, 'setHeaders');
-      httpService.httpRequest(SPOTIFY_SEARCH_URL);
-      expect(httpService.setHeaders).toHaveBeenCalled();
+      spyOn(spotifyWrapper.httpService, 'setHeaders');
+      spotifyWrapper.httpService.httpRequest(SPOTIFY_SEARCH_URL);
+      expect(spotifyWrapper.httpService.setHeaders).toHaveBeenCalled();
     });
 
     it('should call the fetch with the parameters', () => {
-      httpService.httpRequest(SPOTIFY_SEARCH_URL);
-      expect(global.fetch).toHaveBeenCalledWith(SPOTIFY_SEARCH_URL, httpService.setHeaders());
+      spotifyWrapper.httpService.httpRequest(SPOTIFY_SEARCH_URL);
+      expect(global.fetch).toHaveBeenCalledWith(
+        SPOTIFY_SEARCH_URL,
+        spotifyWrapper.httpService.setHeaders()
+      );
     });
 
     it('returns a resolve promise and return a object', async () => {
@@ -106,7 +103,7 @@ describe('Http', () => {
           return Promise.resolve(spotifyObjectResponse);
         },
       });
-      const response = await httpService.httpRequest(SPOTIFY_SEARCH_URL);
+      const response = await spotifyWrapper.httpService.httpRequest(SPOTIFY_SEARCH_URL);
       expect(response).toEqual(spotifyObjectResponse);
     });
 
@@ -116,17 +113,9 @@ describe('Http', () => {
           return Promise.resolve(spotifyError);
         },
       });
-      await httpService
+      await spotifyWrapper.httpService
         .httpRequest(SPOTIFY_SEARCH_URL)
         .catch((error) => expect(error).toEqual('The access token expired'));
-    });
-  });
-
-  describe('SpotifyException', () => {
-    const { status, message } = spotifyError.error;
-
-    it('should return a exception if receives response.error with param', () => {
-      expect(new SpotifyException(status, message)).toBeInstanceOf(SpotifyException);
     });
   });
 
@@ -136,7 +125,7 @@ describe('Http', () => {
       try {
         handleErrors(spotifyError);
       } catch (error) {
-        expect(error).toEqual(new SpotifyException(status, message));
+        expect(error).toEqual(new Error(message, status));
       }
     });
 
@@ -144,7 +133,7 @@ describe('Http', () => {
       try {
         handleErrors(spotifyError);
       } catch (error) {
-        expect(error).toBeInstanceOf(SpotifyException);
+        expect(error).toBeInstanceOf(Error);
       }
     });
 

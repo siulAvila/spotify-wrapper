@@ -19,5 +19,6 @@ module.exports = {
     'prettier/prettier': ['error'],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'no-unused-vars': 0,
+    'import/no-named-as-default-member': 0,
   },
 };

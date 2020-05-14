@@ -1,11 +1,8 @@
-import httpService from '../config/http';
+export default function search() {
+  return {
+    searchItems: (query, type) =>
+      this.httpService.httpRequest(`${this.apiUrl}search?q=${query}&type=${type}`),
 
-import SPOTIFY_SEARCH_URL from '../config/constants';
-
-export const searchItems = (query, type) => {
-  return httpService.httpRequest(`${SPOTIFY_SEARCH_URL}search?q=${query}&type=${type}`);
-};
-
-const searchById = (type, id) => httpService.httpRequest(`${SPOTIFY_SEARCH_URL}/${type}/${id}`);
-
-export default { searchItems, searchById };
+    searchById: (type, id) => this.httpService.httpRequest(`${this.apiUrl}/${type}/${id}`),
+  };
+}

@@ -1,24 +1,28 @@
-import search from '../../../src/api/albums';
-import genericSearch from '../../../src/api/index';
-
 import mocks from '../../mocks/spotify-response.mocks';
+import SpotifyWrapper from '../../../src/main';
 
 describe('Albums', () => {
+  let spotifyWrapper;
+
+  beforeAll(() => {
+    spotifyWrapper = new SpotifyWrapper({ apiKey: 'foo' });
+  });
+
   describe('Smoke tests', () => {
     it('should exist the searchAlbums method', () => {
-      expect(search.searchAlbums).toBeTruthy();
+      expect(spotifyWrapper.albums.searchAlbum).toBeTruthy();
     });
 
     it('should be a function', () => {
-      expect(search.searchAlbums).toBeInstanceOf(Function);
+      expect(spotifyWrapper.albums.searchAlbum).toBeInstanceOf(Function);
     });
 
     it('should exist the searchAlbums method', () => {
-      expect(search.searchAlbumsById).toBeTruthy();
+      expect(spotifyWrapper.albums.searchAlbumsById).toBeTruthy();
     });
 
     it('should be a function', () => {
-      expect(search.searchAlbumsById).toBeInstanceOf(Function);
+      expect(spotifyWrapper.albums.searchAlbumsById).toBeInstanceOf(Function);
     });
   });
 
@@ -26,7 +30,7 @@ describe('Albums', () => {
     let spySearch;
 
     beforeEach(() => {
-      spySearch = spyOn(genericSearch, 'searchItems');
+      spySearch = spyOn(spotifyWrapper.search, 'searchItems');
     });
 
     afterEach(() => {
@@ -35,24 +39,26 @@ describe('Albums', () => {
 
     it('should call the search method', () => {
       spySearch.and.returnValue(mocks.responseSpotifyForAlbums);
-      search.searchAlbums('Guns N Roses');
-      expect(genericSearch.searchItems).toHaveBeenCalled();
+      spotifyWrapper.albums.searchAlbum('Guns N Roses');
+      expect(spotifyWrapper.search.searchItems).toHaveBeenCalled();
     });
 
     it('should call the search method with de url', () => {
       spySearch.and.returnValue(mocks.responseSpotifyForAlbums);
-      search.searchAlbums('Guns N Roses');
-      expect(genericSearch.searchItems).toHaveBeenCalledWith('Guns N Roses', 'album');
+      spotifyWrapper.albums.searchAlbum('Guns N Roses');
+      expect(spotifyWrapper.search.searchItems).toHaveBeenCalledWith('Guns N Roses', 'album');
     });
 
     it('should return a object receive by the search method', async () => {
       spySearch.and.returnValue(mocks.responseSpotifyForAlbums);
-      expect(await search.searchAlbums('Guns N Roses')).toEqual(['Appetite For Destruction']);
+      expect(await spotifyWrapper.albums.searchAlbum('Guns N Roses')).toEqual([
+        'Appetite For Destruction',
+      ]);
     });
 
     it('should return a object receive by the search method', async () => {
       spySearch.and.returnValue({});
-      expect(await search.searchAlbums('')).toEqual({});
+      expect(await spotifyWrapper.albums.searchAlbum('')).toEqual({});
     });
   });
 
@@ -60,7 +66,7 @@ describe('Albums', () => {
     let spySearchById;
 
     beforeEach(() => {
-      spySearchById = spyOn(genericSearch, 'searchById').and.returnValue(
+      spySearchById = spyOn(spotifyWrapper.search, 'searchById').and.returnValue(
         mocks.responseSpotifyForAlbumsById
       );
     });
@@ -70,17 +76,20 @@ describe('Albums', () => {
     });
 
     it('should call the searchById method', () => {
-      search.searchAlbumsById('41MnTivkwTO3UUJ8DrqEJJ');
-      expect(genericSearch.searchById).toHaveBeenCalled();
+      spotifyWrapper.albums.searchAlbumsById('41MnTivkwTO3UUJ8DrqEJJ');
+      expect(spotifyWrapper.search.searchById).toHaveBeenCalled();
     });
 
     it('should call the search method with de url', () => {
-      search.searchAlbumsById('41MnTivkwTO3UUJ8DrqEJJ');
-      expect(genericSearch.searchById).toHaveBeenCalledWith('albums', '41MnTivkwTO3UUJ8DrqEJJ');
+      spotifyWrapper.albums.searchAlbumsById('41MnTivkwTO3UUJ8DrqEJJ');
+      expect(spotifyWrapper.search.searchById).toHaveBeenCalledWith(
+        'albums',
+        '41MnTivkwTO3UUJ8DrqEJJ'
+      );
     });
 
     it('should return a object receive by the search method', async () => {
-      expect(await genericSearch.searchById('41MnTivkwTO3UUJ8DrqEJJ')).toEqual(
+      expect(await spotifyWrapper.search.searchById('41MnTivkwTO3UUJ8DrqEJJ')).toEqual(
         mocks.responseSpotifyForAlbumsById
       );
     });
