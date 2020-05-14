@@ -1,15 +1,7 @@
 import search from '../../../src/api/albums';
 import genericSearch from '../../../src/api/index';
 
-const responseSpotifyForAlbums = {
-  albums: {
-    items: ['Appetite For Destruction'],
-  },
-};
-
-const responseSpotifyForAlbumsById = {
-  albums: { json: 'json' },
-};
+import mocks from '../../mocks/spotify-response.mocks';
 
 describe('Albums', () => {
   describe('Smoke tests', () => {
@@ -42,19 +34,19 @@ describe('Albums', () => {
     });
 
     it('should call the search method', () => {
-      spySearch.and.returnValue(responseSpotifyForAlbums);
+      spySearch.and.returnValue(mocks.responseSpotifyForAlbums);
       search.searchAlbums('Guns N Roses');
       expect(genericSearch.searchItems).toHaveBeenCalled();
     });
 
     it('should call the search method with de url', () => {
-      spySearch.and.returnValue(responseSpotifyForAlbums);
+      spySearch.and.returnValue(mocks.responseSpotifyForAlbums);
       search.searchAlbums('Guns N Roses');
       expect(genericSearch.searchItems).toHaveBeenCalledWith('Guns N Roses', 'album');
     });
 
     it('should return a object receive by the search method', async () => {
-      spySearch.and.returnValue(responseSpotifyForAlbums);
+      spySearch.and.returnValue(mocks.responseSpotifyForAlbums);
       expect(await search.searchAlbums('Guns N Roses')).toEqual(['Appetite For Destruction']);
     });
 
@@ -69,7 +61,7 @@ describe('Albums', () => {
 
     beforeEach(() => {
       spySearchById = spyOn(genericSearch, 'searchById').and.returnValue(
-        responseSpotifyForAlbumsById
+        mocks.responseSpotifyForAlbumsById
       );
     });
 
@@ -89,7 +81,7 @@ describe('Albums', () => {
 
     it('should return a object receive by the search method', async () => {
       expect(await genericSearch.searchById('41MnTivkwTO3UUJ8DrqEJJ')).toEqual(
-        responseSpotifyForAlbumsById
+        mocks.responseSpotifyForAlbumsById
       );
     });
   });

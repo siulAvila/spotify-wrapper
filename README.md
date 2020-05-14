@@ -57,7 +57,7 @@ var spotifyWrapper = require('spotify-wrapper-test-tdd');
 After that the library will be available to the Global as `spotifyWrapper`. Follow an example:
 
 ```js
-const albums = spotifyWrapper.searchAlbums('Choosen Artist');
+const albums = spotifyWrapper.albums.searchAlbums('Choosen Artist');
 ```
 
 ## Methods
@@ -72,13 +72,13 @@ const albums = spotifyWrapper.searchAlbums('Choosen Artist');
 
 | Argument | Type               | Options                                  |
 | -------- | ------------------ | ---------------------------------------- |
-| `query`  | _string_           | 'Any search query'                       |
 | `type`   | _Array of strings_ | ['artist', 'album', 'track', 'playlist'] |
+| `query`  | _string_           | 'Any search query'                       |
 
 **Example**
 
 ```js
-search('Incubus', ['artist', 'album']).then((data) => {
+searchItems(['artist', 'album'], 'Incubus').then((data) => {
   // do what you want with the data
 });
 ```
@@ -96,7 +96,7 @@ search('Incubus', ['artist', 'album']).then((data) => {
 **Example**
 
 ```js
-searchAlbums('Incubus').then((data) => {
+albums.searchAlbums('Incubus').then((data) => {
   // do what you want with the data
 });
 ```
@@ -114,7 +114,7 @@ searchAlbums('Incubus').then((data) => {
 **Example**
 
 ```js
-getAlbum('4aawyAB9vmqN3uQ7FjRGTy').then((data) => {
+albums.searchAlbumsById('4aawyAB9vmqN3uQ7FjRGTy').then((data) => {
   // do what you want with the data
 });
 ```
@@ -132,7 +132,7 @@ getAlbum('4aawyAB9vmqN3uQ7FjRGTy').then((data) => {
 **Example**
 
 ```js
-getAlbumById(['4aawyAB9vmqN3uQ7FjRGTy', '1A2GTWGtFfWp7KSQTwWOyo']).then((data) => {
+searchAlbumsById(['4aawyAB9vmqN3uQ7FjRGTy', '1A2GTWGtFfWp7KSQTwWOyo']).then((data) => {
   // do what you want with the data
 });
 ```
