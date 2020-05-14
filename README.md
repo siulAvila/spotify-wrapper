@@ -23,7 +23,7 @@ This library depends on [fetch](https://fetch.spec.whatwg.org/) to make requests
 ## Installation
 
 ```sh
-$ npm install spotify-wrapper --save
+$ npm install spotify-wrapper-test-tdd --save
 ```
 
 ## How to use
@@ -32,26 +32,26 @@ $ npm install spotify-wrapper --save
 
 ```js
 // to import a specific method
-import { method } from 'spotify-wrapper';
+import { method } from 'spotify-wrapper-test-tdd';
 
 // to import everything
-import * as spotifyWrapper from 'spotify-wrapper';
+import * as spotifyWrapper from 'spotify-wrapper-test-tdd';
 ```
 
 ### CommonJS
 
 ```js
-var spotifyWrapper = require('spotify-wrapper');
+var spotifyWrapper = require('spotify-wrapper-test-tdd');
 ```
 
 ### UMD in Browser
 
 ```html
 <!-- to import non-minified version -->
-<script src="spotify-wrapper.umd.js"></script>
+<script src="spotify-wrapper-test-tdd.umd.js"></script>
 
 <!-- to import minified version -->
-<script src="spotify-wrapper.umd.min.js"></script>
+<script src="spotify-wrapper-test-tdd.umd.min.js"></script>
 ```
 
 After that the library will be available to the Global as `spotifyWrapper`. Follow an example:

@@ -1,7 +1,5 @@
 import { Headers } from 'node-fetch';
 
-import keys from './keys';
-
 global.fetch = require('node-fetch');
 
 export function SpotifyException(status, message) {
@@ -23,7 +21,7 @@ const httpService = {
     const options = {
       headers: new Headers({
         'Content-Type': 'application/json',
-        Authorization: `${keys.spotifyAuthorization}`,
+        Authorization: `bear foo`,
       }),
     };
     return options;

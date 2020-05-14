@@ -1,17 +1,14 @@
 const { join } = require('path');
-const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   entry: './src/main',
-  mode: 'development',
-  target: 'node',
+  mode: 'production',
   devtool: 'source-map',
 
-  externals: [nodeExternals()],
   output: {
     path: join(__dirname, 'dist'),
     libraryTarget: 'umd',
-    library: 'spotify-wrapper',
+    library: 'spotify-wrapper-test-tdd',
   },
   module: {
     rules: [

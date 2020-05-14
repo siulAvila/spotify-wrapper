@@ -3,7 +3,6 @@ import { Headers } from 'node-fetch';
 import httpService, { SpotifyException, handleErrors } from '../../../src/config/http';
 
 import SPOTIFY_SEARCH_URL from '../../../src/config/constants';
-import keys from '../../../src/config/keys';
 
 describe('Http', () => {
   const spotifyObjectResponse = { body: 'json' };
@@ -68,7 +67,7 @@ describe('Http', () => {
       const { headers } = options;
       const autorizhation = headers.get('authorization');
 
-      expect(autorizhation).toEqual(keys.spotifyAuthorization);
+      expect(autorizhation).toEqual('bear foo');
     });
   });
 

@@ -1,15 +1,14 @@
 {
-  "name": "spotify-wrapper",
-  "version": "1.0.0",
+  "name": "spotify-wrapper-test-tdd",
+  "version": "1.0.2",
   "description": "A wrapper to work with the spotify API",
-  "main": "index.js",
+  "main": "lib/main.js",
   "scripts": {
-    "build": "npx babel src --out-dir lib src",
+    "build": "npx babel src --out-dir lib --ignore 'spec/tests/**/*.spec.js'",
     "build:watch": "npx babel src --watch  --out-dir lib src",
-    "build:umd": "npx webpack --output-filename spotify-wrapper.umd.js",
-    "build:umd:min": "npx webpack --output-filename spotify-wrapper.umd.min.js -p",
+    "build:umd": "npx webpack --output-filename spotify-wrapper-test-tdd.umd.js",
+    "build:umd:min": "npx webpack --output-filename spotify-wrapper-test-tdd.umd.min.js -p",
     "build:all": "npm run build && npm run build:umd && npm run build:umd:min",
-    "start": "npx babel-node src/main.js",
     "test": "jasmine",
     "lint": "npx eslint src/*js --fix",
     "coverage": "npx nyc npm run test"
@@ -19,6 +18,10 @@
       "pre-push": "npm run lint && npm run coverage"
     }
   },
+  "files": [
+    "dist",
+    "lib"
+  ],
   "nyc": {
     "functions": 80,
     "lines": 80,
@@ -33,7 +36,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/siulAvila/Js-TDD.git"
+    "url": "git+https://github.com/siulAvila/spotify-wrapper.git"
   },
   "keywords": [
     "js",
@@ -43,13 +46,12 @@
   "author": "Luis Fernando de Avila",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/siulAvila/Js-TDD/issues"
+    "url": "https://github.com/siulAvila/spotify-wrapper/issues"
   },
-  "homepage": "https://github.com/siulAvila/Js-TDD#readme",
+  "homepage": "https://github.com/siulAvila/spotify-wrapper#readme",
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.6",
-    "@babel/node": "^7.8.7",
     "@babel/plugin-transform-runtime": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
     "@babel/register": "^7.9.0",
@@ -63,15 +65,13 @@
     "eslint-plugin-react": "^7.19.0",
     "husky": "^4.2.5",
     "jasmine": "^3.5.0",
-    "node-fetch": "^2.6.0",
     "nyc": "^15.0.1",
     "prettier": "^2.0.5",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11",
-    "webpack-node-externals": "^1.7.2"
+    "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "@babel/runtime": "^7.9.6",
+    "node-fetch": "^2.6.0"
   }
 }
