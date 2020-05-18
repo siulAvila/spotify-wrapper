@@ -1,6 +1,6 @@
 {
   "name": "spotify-wrapper-test-tdd",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A wrapper to work with the spotify API",
   "main": "lib/main.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "build:umd:min": "npx webpack --output-filename spotify-wrapper-test-tdd.umd.min.js -p",
     "build:all": "npm run build && npm run build:umd && npm run build:umd:min",
     "test": "jasmine",
-    "lint": "npx eslint src/*js --fix",
+    "lint": "npx eslint src --ext .js",
     "coverage": "npx nyc npm run test"
   },
   "husky": {

@@ -1,14 +1,14 @@
 const { join } = require('path');
 
 module.exports = {
-  entry: './src/main',
+  entry: './index',
   mode: 'production',
   devtool: 'source-map',
 
   output: {
     path: join(__dirname, 'dist'),
     libraryTarget: 'umd',
-    library: 'spotify-wrapper-test-tdd',
+    library: 'SpotifyWrapper',
   },
   module: {
     rules: [

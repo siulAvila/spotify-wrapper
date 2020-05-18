@@ -1,4 +1,4 @@
-const SpotifyWrapper = require('../src/main').default;
+const SpotifyWrapper = require('../src/main');
 
 const spotify = new SpotifyWrapper({
   apiKey: 'key',

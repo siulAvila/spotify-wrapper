@@ -50,7 +50,7 @@ describe('API', () => {
     it('should call the httpRequest method with right params', () => {
       spotifyWrapper.search.searchItems('Guns N Roses', 'album');
       expect(spotifyWrapper.httpService.httpRequest).toHaveBeenCalledWith(
-        `${SPOTIFY_SEARCH_URL}search?q=Guns N Roses&type=album`
+        `${SPOTIFY_SEARCH_URL}/search?q=Guns N Roses&type=album`
       );
     });
 
@@ -69,7 +69,7 @@ describe('API', () => {
     });
 
     it('should call the httpRequest method with right params', () => {
-      spotifyWrapper.search.searchById('albums', '41MnTivkwTO3UUJ8DrqEJJ');
+      spotifyWrapper.search.searchById('41MnTivkwTO3UUJ8DrqEJJ', 'albums');
       expect(spotifyWrapper.httpService.httpRequest).toHaveBeenCalledWith(
         `${SPOTIFY_SEARCH_URL}/albums/41MnTivkwTO3UUJ8DrqEJJ`
       );

@@ -83,8 +83,8 @@ describe('Albums', () => {
     it('should call the search method with de url', () => {
       spotifyWrapper.albums.searchAlbumsById('41MnTivkwTO3UUJ8DrqEJJ');
       expect(spotifyWrapper.search.searchById).toHaveBeenCalledWith(
-        'albums',
-        '41MnTivkwTO3UUJ8DrqEJJ'
+        '41MnTivkwTO3UUJ8DrqEJJ',
+        'albums'
       );
     });
 

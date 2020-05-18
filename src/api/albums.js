@@ -9,7 +9,7 @@ export default function albums() {
     },
 
     searchAlbumsById: async (id) => {
-      const albumsList = await this.search.searchById('albums', id);
+      const albumsList = await this.search.searchById(id, 'albums');
       return albumsList;
     },
   };
