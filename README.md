@@ -92,7 +92,7 @@ const albums = spotify.search.albums('Choosen Artist');
 **Example**
 
 ```js
-searchItems(['artist', 'album'], 'Incubus').then((data) => {
+spotify.searchItems(['artist', 'album'], 'Incubus').then((data) => {
   // do what you want with the data
 });
 ```
@@ -110,7 +110,7 @@ searchItems(['artist', 'album'], 'Incubus').then((data) => {
 **Example**
 
 ```js
-albums.searchAlbums('Incubus').then((data) => {
+spotify.albums.searchAlbums('Incubus').then((data) => {
   // do what you want with the data
 });
 ```
@@ -128,7 +128,7 @@ albums.searchAlbums('Incubus').then((data) => {
 **Example**
 
 ```js
-albums.searchAlbumsById('4aawyAB9vmqN3uQ7FjRGTy').then((data) => {
+spotify.albums.searchAlbumsById('4aawyAB9vmqN3uQ7FjRGTy').then((data) => {
   // do what you want with the data
 });
 ```
@@ -146,7 +146,7 @@ albums.searchAlbumsById('4aawyAB9vmqN3uQ7FjRGTy').then((data) => {
 **Example**
 
 ```js
-searchAlbumsById(['4aawyAB9vmqN3uQ7FjRGTy', '1A2GTWGtFfWp7KSQTwWOyo']).then((data) => {
+spotify.searchAlbumsById(['4aawyAB9vmqN3uQ7FjRGTy', '1A2GTWGtFfWp7KSQTwWOyo']).then((data) => {
   // do what you want with the data
 });
 ```
