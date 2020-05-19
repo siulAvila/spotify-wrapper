@@ -32,16 +32,24 @@ $ npm install spotify-wrapper-test-tdd --save
 
 ```js
 // to import a specific method
-import { method } from 'spotify-wrapper-test-tdd';
+import SpotifyWrapper from 'spotify-wrapper-test-tdd';
 
-// to import everything
-import * as spotifyWrapper from 'spotify-wrapper-test-tdd';
+const spotify = new SpotifyWrapper({
+  token: 'YOUR_TOKEN_HERE'
+});
+
+// using  method
+spotify.search.artists('Incubus');
 ```
 
 ### CommonJS
 
 ```js
-var spotifyWrapper = require('spotify-wrapper-test-tdd');
+const SpotifyWrapper = require('spotify-wrapper-test-tdd').default;
+
+const spotify = new SpotifyWrapper({
+  token: 'YOUR_TOKEN_HERE'
+});
 ```
 
 ### UMD in Browser
@@ -54,11 +62,17 @@ var spotifyWrapper = require('spotify-wrapper-test-tdd');
 <script src="spotify-wrapper-test-tdd.umd.min.js"></script>
 ```
 
-After that the library will be available to the Global as `spotifyWrapper`. Follow an example:
+After that the library will be available to the Global as `SpotifyWrapper`. Follow an example:
 
 ```js
-const albums = spotifyWrapper.albums.searchAlbums('Choosen Artist');
+
+const spotify = new SpotifyWrapper({
+  token: 'YOUR_TOKEN_HERE'
+});
+
+const albums = spotify.search.albums('Choosen Artist');
 ```
+
 
 ## Methods
 
