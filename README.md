@@ -92,7 +92,7 @@ const albums = spotify.search.albums('Choosen Artist');
 **Example**
 
 ```js
-spotify.searchItems(['artist', 'album'], 'Incubus').then((data) => {
+spotify.search.searchItems(['artist', 'album'], 'Incubus').then((data) => {
   // do what you want with the data
 });
 ```
@@ -146,7 +146,7 @@ spotify.albums.searchAlbumsById('4aawyAB9vmqN3uQ7FjRGTy').then((data) => {
 **Example**
 
 ```js
-spotify.searchAlbumsById(['4aawyAB9vmqN3uQ7FjRGTy', '1A2GTWGtFfWp7KSQTwWOyo']).then((data) => {
+spotify.albums.searchAlbumsById(['4aawyAB9vmqN3uQ7FjRGTy', '1A2GTWGtFfWp7KSQTwWOyo']).then((data) => {
   // do what you want with the data
 });
 ```
